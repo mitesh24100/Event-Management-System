@@ -1,0 +1,21 @@
+<%# The Events file for listing the users who attended an Event %>
+
+<h1>Listing Attendees</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Phone Number</th>
+    <th>Email</th>
+  </tr>
+
+  <% @attendees.each do |attendee| %>
+    <tr>
+      <td><%= attendee.name %></td>
+      <td><%= attendee.phone_number %></td>
+      <td><%= attendee.email %></td>
+    </tr>
+  <% end %>
+</table>
+
+<br>

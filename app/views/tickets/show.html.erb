@@ -1,0 +1,12 @@
+<%# File for showing All Tickets %>
+
+<p style="color: green"><%= notice %></p>
+
+<%= render @ticket %>
+
+<div>
+    <%= link_to "Edit this ticket", edit_ticket_path(@ticket) %> <br/><br/>
+    <%= button_to "Destroy this ticket", @ticket, method: :delete %><br/><br/>
+    <%= link_to "Back to tickets", tickets_path %><br/><br/>
+
+</div>

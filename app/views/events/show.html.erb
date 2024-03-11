@@ -1,0 +1,28 @@
+<%# File for showing All Events %>
+
+<p style="color: green"><%= notice %></p>
+
+<%= render @event %>
+
+<div>
+  <% if current_user.admin? %>
+    <%= link_to "Edit this event", edit_event_path(@event) %>
+    <br/>
+  <% end %>
+  <br/>
+  <%= link_to "Back to events", events_path %>
+  <br/>
+  <% if current_user.admin? %>
+    <br/>
+    <%= button_to "Destroy this event", @event, method: :delete %>
+  <% end %>
+</div>
+<br/>
+<br/>
+
+
+<br/>
+<br/>
+
+
+

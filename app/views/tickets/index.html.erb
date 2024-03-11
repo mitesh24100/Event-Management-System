@@ -1,0 +1,30 @@
+<%# The Main file for the Tickets Page %>
+
+<p style="color: green"><%= notice %></p>
+
+<h1>Tickets</h1>
+
+<table>
+  <thead>
+  <tr>
+    <th>Event Name</th>
+    <th>Event Date</th>
+    <th>Confirmation Number</th>
+    <th colspan="2"></th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @tickets.each do |ticket| %>
+    <tr>
+      <td><%= ticket.event.name %></td>
+      <td><%= ticket.event.date %></td>
+      <td><%= ticket.confirmation_number %></td>
+      <td><%= link_to "Show/edit/delete this event ticket", ticket %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<br/>
+<br/>
+

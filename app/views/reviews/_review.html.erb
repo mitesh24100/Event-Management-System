@@ -1,0 +1,29 @@
+<%# The file for displaying the Reviews %>
+
+<div id="<%= dom_id review %>">
+  <p>
+    <strong>Feedback:</strong>
+    <%= review.feedback %>
+  </p>
+
+  <p>
+    <strong>Rating:</strong>
+    <%= review.rating %>
+  </p>
+
+  <p>
+    <strong>Event ID:</strong>
+    <%= review.event_id %>
+  </p>
+
+  <p>
+    <strong>Event Name:</strong>
+    <%= review.event.name %>
+  </p>
+
+  <p>
+    <strong>User Name:</strong>
+    <%= review.user.name %>
+  </p>
+
+</div>

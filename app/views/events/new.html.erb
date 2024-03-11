@@ -1,0 +1,14 @@
+<%# Events File for creating a new event %>
+
+<% if current_user.admin? %>
+  <h1>New event</h1>
+  <%= render "form", event: @event %>
+
+  <br>
+
+  <div>
+    <%= link_to "Back to events", events_path %>
+  </div>
+<% else %>
+<p>You are not allowed to view this page</p>
+<% end %>

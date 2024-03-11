@@ -1,0 +1,89 @@
+<%# The file for displaying the Booking History %>
+
+<!-- app/views/tickets/booking_history.html.erb -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Booking History</title>
+  <style>
+      .booking-history-table {
+          width: 100%;
+          border-collapse: collapse;
+          margin-top: 20px;
+      }
+
+      .booking-history-table th, .booking-history-table td {
+          border: 1px solid #ddd;
+          padding: 8px;
+          text-align: left;
+      }
+
+      .booking-history-table th {
+          background-color: #4CAF50;
+          color: white;
+      }
+
+      .booking-history-table tr:nth-child(even) {
+          background-color: #f2f2f2;
+      }
+
+      .booking-history-table tr:hover {
+          background-color: #ddd;
+      }
+
+      .booking-history-table td a {
+          display: inline-block;
+          padding: 5px 10px;
+          color: white;
+          background-color: #4CAF50;
+          border-radius: 5px;
+          text-decoration: none;
+      }
+
+      .booking-history-table td a:hover {
+          background-color: #45a049;
+      }
+  </style>
+</head>
+<body>
+
+<h1>My Booking History</h1>
+
+<table class="booking-history-table">
+  <thead>
+  <tr>
+    <th>Event Name</th>
+    <th>Event Date</th>
+    <th>Event Purchased By</th>
+    <th>Event Purchased For</th>
+    <th>Confirmation number</th>
+    <th colspan="3"></th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @tickets.each do |ticket| %>
+    <tr>
+      <td><%= ticket.event.name %></td>
+      <td><%= ticket.event.date %></td>
+      <td><%= User.find(ticket.user_id).name %></td>
+      <td><%= ticket.purchased_for_user_id ? User.find(ticket.purchased_for_user_id).name : 'Myself' %></td>
+      <td><%= ticket.confirmation_number %></td>
+      <td><%= link_to 'Show', ticket %></td>
+      <% if current_user.admin? %>
+        <td><%= link_to 'Destroy', ticket, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <% end %>
+      <% if ticket.event.date < Date.today %>
+        <% if ticket.event.category != "Miscellaneous/Family – Private" %>
+          <td><%= link_to 'Add Review', new_event_review_path(event_id: ticket.event_id) %></td>
+        <% end %>
+      <% end %>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+</body>
+</html>
+<br/>
+<br/>

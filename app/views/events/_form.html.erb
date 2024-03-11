@@ -1,0 +1,116 @@
+<%# The Event file for creating a new Event %>
+
+<%= form_with(model: event) do |form| %>
+  <% if event.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(event.errors.count, "error") %> prohibited this event from being saved:</h2>
+
+      <ul>
+        <% event.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name, style: "display: block" %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :category, "Category", style: "display: block" %>
+    <%= form.select :category, options_for_select(["Concerts", "Sports", "Arts & Theatre", "Miscellaneous/Family – Private"]) %>
+  </div>
+
+
+  <div>
+    <%= form.label :date, style: "display: block" %>
+    <%= form.date_field :date %>
+  </div>
+
+  <div>
+    <%= form.label :start_time, style: "display: block" %>
+    <%= form.time_field :start_time %>
+  </div>
+
+  <div>
+    <%= form.label :end_time, style: "display: block" %>
+    <%= form.time_field :end_time %>
+  </div>
+
+  <div>
+    <%= form.label :ticket_price, style: "display: block" %>
+    <%= form.number_field :ticket_price, step: '0.01'%>
+  </div>
+
+  <div>
+    <%= form.label :seats_left, 'Seats Required for Event',style: "display: block" %>
+    <%= form.number_field :seats_left %>
+  </div>
+
+  <div>
+    <%= form.label :room_id, style: "display: block" %>
+    <select id="event_room_id" name="event[room_id]">
+      <% if @room %>
+        <option value="<%= @room.id %>"><%= @room.location %></option>
+      <% end %>
+    </select>
+  </div>
+<!--  <div>-->
+    <%#= form.label :room_id %>
+    <%#= select("event", "room_id", options_for_available_rooms(event.date, event.start_time, event.end_time)) %>
+<!--  </div>-->
+<br/>
+<button  id="room" type="button">Search Rooms</button>
+<br/>
+<div>
+  <%= form.submit %>
+</div>
+
+  <!--  <div>-->
+  <%#= form.label :seats_left, style: "display: block" %>
+  <%#= form.number_field :seats_left %>
+  <!--  </div>-->
+
+
+
+
+  <script>
+      $("#room").on('click',function(){
+          var start=document.getElementById("event_start_time").value;
+          var end =document.getElementById("event_end_time").value;
+          var date=document.getElementById("event_date").value;
+          var seats=document.getElementById("event_seats_left").value;
+          if(start && end && date && seats && seats>0){
+              $.ajax({
+                  url: "/roomsearch",
+                  type: "GET",
+                  data: {date:date,start:start,end:end, seats:seats},
+                  success: function(data) {
+                      var optionsValue=[];
+                      var options=document.getElementById("event_room_id");
+
+                      if (options && options.length>0){
+                          for (var i=0;i<options.length;i++){
+                              optionsValue.push(parseInt(options[i].value));
+                          }
+                      }
+                      var listitems = [];
+                      $.each(data,function(k,value) {
+
+                          if(!optionsValue.includes(value.id))
+                              listitems += '<option value="' + value.id+ '">' + value.location + '</option>';    });
+                      $("#event_room_id").append(listitems);
+
+
+                  }
+              })
+          }
+          else{
+              alert("To search Room date,start time and end time should be greater than 0");
+          }})
+  </script>
+
+
+<% end %>

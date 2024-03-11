@@ -1,0 +1,69 @@
+<%# The Home Page for the App %>
+
+<p id=”notice”><%= notice %></p>
+
+
+  <!-- app/views/home/index.html.erb -->
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <title>Welcome to Wolf Event Booking Platform</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; }
+        .header { background-color: #007bff; color: white; padding: 20px; text-align: center; }
+        .content { padding: 20px; }
+        .footer { background-color: #333; color: white; text-align: center; padding: 10px; position: fixed; bottom: 0; width: 100%; }
+        a { color: #007bff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+  </head>
+  <body>
+  <div class="header">
+    <h1>Welcome to Our Event Booking Platform</h1>
+  </div>
+  <div class="content">
+    <% if current_user %>
+    <p>Discover and book tickets for the most exciting events happening around you!</p>
+    Logged in as <%= current_user.name %><br/><br/>
+    <%= link_to 'My Booking History', booking_history_path, style: 'display: inline-block; background-color: #007bff; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;' %>
+    <br/><br/>
+    <%= link_to 'Show my profile', user_path(current_user) %><br/><br/>
+    <%= link_to 'Edit my Profile', edit_user_path(current_user) %><br/><br/>
+      <%= link_to 'Edit and delete tickets that you have booked', tickets_path %> <br/><br/>
+
+    <% if current_user.admin? %>
+      <%= link_to 'Attendees', users_path %><br/><br/>
+      <%= link_to 'Rooms', rooms_path %> <br/><br/>
+      <%= link_to 'Show/Edit/Delete tickets', tickets_path %> <br/><br/>
+        <p>EXTRA CREDIT QUESTION 1</p>
+        <br/>
+        <%= form_with(url: search_attendees_path, method: :get, local: true) do |form| %>
+          <%= form.label :event_name, 'Search Event Attendees by event name:' %>
+          <%= form.text_field :event_name %>
+          <%= form.submit 'Search' %>
+        <% end %>
+        <br/>
+        <br/>
+    <% else %>
+      <%= button_to 'Delete my profile', user_path(current_user), method: :delete, data:{ confirm: "Are you sure?"}  %><br/><br/>
+    <% end %>
+
+    <%= link_to 'View Events & Book Tickets', events_path, class: 'btn btn-primary' %><br/><br/>
+
+    <%= link_to 'See Reviews', reviews_path(view_all_reviews: true) %> <br/><br/>
+    <%= link_to "Logout", logout_path %>
+
+<% else %>
+  <%= link_to "Signup", signup_path %> or
+  <%= link_to "Login", login_path %>
+<% end %>
+
+    <!-- Add more links or content here as needed -->
+  </div>
+
+  </body>
+  </html>
+
+
+
+

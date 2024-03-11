@@ -1,0 +1,48 @@
+<%# Tickets File for creating a new ticket %>
+
+<h1>New ticket</h1>
+
+<%= form_with(model: @ticket) do |form| %>
+  <% if @ticket.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(@ticket.errors.count, "error") %> prohibited this ticket from being saved:</h2>
+      <ul>
+        <% @ticket.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <p> Confirm Event Booking: <%= @event.name %> </p>
+  <p> Confirm Event Category: <%= @event.category %> </p>
+
+  <div class="field">
+    <%= form.hidden_field :event_id, value: @event.id  %>
+  </div>
+  <br/>
+  <br/>
+
+  <div>
+    <%= form.label :number_of_tickets, style: "display: block" %>
+    <%= form.number_field :number_of_tickets %>
+  </div>
+
+  <div>
+    <%= form.label :purchased_for_user_id, "Ticket for:" %>
+    <%= form.collection_select :purchased_for_user_id, User.all, :id, :name, include_blank: "Select User" %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
+
+
+<br>
+
+<div>
+  <%= link_to "Back to tickets", tickets_path %>
+</div>
+
+<br/>>

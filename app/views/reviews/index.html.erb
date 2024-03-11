@@ -1,0 +1,43 @@
+<%# The Main file for the Reviews Page %>
+
+<p style="color: green"><%= notice %></p>
+
+
+<%= form_tag reviews_path, method: 'get' do %>
+  <% if !current_user.admin %>
+    <p>
+      <%= label_tag :email, "Email Name" %>
+      <%= text_field_tag :email, params[:email], placeholder: "Enter Email of the User" %>
+    </p>
+  <% end %>
+  <% if current_user.admin %>
+    <p>
+      <%= label_tag :user_name, "User Name" %>
+      <%= text_field_tag :user_name, params[:user_name], placeholder: "Enter User Name" %>
+    </p>
+  <% end %>
+  <p>
+    <%= label_tag :event_name, "Event Name" %>
+    <%= text_field_tag :event_name, params[:event_name], placeholder: "Enter Event Name" %>
+  </p>
+  <%= submit_tag "Search" %>
+<%end %>
+<br/>
+<br/>
+
+<h1>Reviews</h1>
+<% if @reviews.any? %>
+  <div id="reviews">
+    <% @reviews.each do |review| %>
+      <%= render review %>
+      <p>
+        <%= link_to "Show/Edit/Deletes this review", review %>
+      </p>
+      <br/>
+      <br/>
+    <% end %>
+  </div>
+<% else %>
+  <p>No reviews added</p>
+<% end %>
+<%#= link_to "New review", new_review_path %>
